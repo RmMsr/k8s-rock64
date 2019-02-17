@@ -42,8 +42,9 @@ exec_remote_stdin <<CMD
       "deb [arch=arm64] https://download.docker.com/linux/debian \
       \$(lsb_release -cs) \
       stable"
-		sudo apt-get update
-    sudo apt-get install --yes docker-ce
+    sudo apt-get update
+    sudo apt-get install --yes docker-ce=${docker_version}
+    echo "docker-ce hold" | sudo dpkg --set-selections
 CMD
 
 echo === Install kubeadm, kubectl and kubelet

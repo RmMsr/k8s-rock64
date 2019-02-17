@@ -1,6 +1,6 @@
 exec_remote_stdin() {
-		cat ${directory}/executor.sh - | \
-			  ssh -o SendEnv=LC_password -i ${ssh_key} ${user}@${host} sh -e "$@"
+    cat ${directory}/executor.sh - | \
+        ssh -o SendEnv=LC_password -i ${ssh_key} ${user}@${host} sh -e "$@"
 }
 
 exec_remote() {
@@ -8,5 +8,5 @@ exec_remote() {
 }
 
 exec_remote_su() {
-	  echo sudo "$@" | exec_remote_stdin
+    echo sudo "$@" | exec_remote_stdin
 }
