@@ -61,4 +61,10 @@ exec_remote_stdin <<CMD
 CMD
 
 echo === Initialising reboot
-exec_remote_su reboot
+
+exec_remote_su reboot && true
+sleep 20
+
+echo === Init kubernetes
+
+exec_remote_su kubeadm init
