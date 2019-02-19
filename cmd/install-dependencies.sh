@@ -61,9 +61,13 @@ exec_remote_stdin <<CMD
         sudo apt-mark hold kubelet kubeadm kubectl
 CMD
 
-echo === Initializing reboot
+echo === Initializing reboot if needed
 
-exec_remote_su reboot && true
-echo Waiting for reboot ...
-sleep 30
-exec_remote echo Done
+if exec_remote test -f /var/run/reboot-required; then
+    echo Reboot ...
+    exec_remote_su reboot || true
+    sleep 30
+    exec_remote echo Done
+else
+    echo No reboot required
+fi
