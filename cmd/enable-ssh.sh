@@ -2,13 +2,11 @@
 
 set -e
 
-source "$(dirname $0)/vars-local.sh"
-source "$(dirname $0)/vars-remote.sh"
-source "$directory/utils.sh"
+source "$(dirname $0)/../util/init.sh"
 
 function usage() {
     echo Usage:
-    echo "  $0 host"
+    echo \ \ $0 host
     exit 1
 }
 

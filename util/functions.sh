@@ -1,5 +1,5 @@
 exec_remote_stdin() {
-    cat ${directory}/executor.sh - | \
+    cat ${base_directory}/util/executor.sh - | \
         ssh -o SendEnv=LC_password -i ${ssh_key} ${user}@${host} sh -e "$@"
 }
 
