@@ -26,7 +26,8 @@ fi
 
 echo === Adding SSH public key to host
 export SSH_ASKPASS=${directory}/ssh_pass.sh
-setsid ssh-copy-id -i ${ssh_key} ${user}@${host}
+# FIXME is setsid required on Linux?
+ssh-copy-id -i ${ssh_key} ${user}@${host}
 
 echo === Disabling password authentication
 exec_remote_su "sed -i 's/^\#PasswordAuthentication yes$/PasswordAuthentication no/' /etc/ssh/sshd_config"
