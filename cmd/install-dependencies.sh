@@ -44,7 +44,7 @@ exec_remote_stdin <<CMD
       stable"
     sudo apt-get update
     sudo apt-get install --yes docker-ce=${docker_version}
-    echo "docker-ce hold" | sudo dpkg --set-selections
+    apt-mark hold docker-ce
 CMD
 
 echo === Install kubeadm, kubectl and kubelet
@@ -55,16 +55,15 @@ exec_remote_stdin <<CMD
 	sudo apt-add-repository "deb [arch=arm64] \
 		http://apt.kubernetes.io/ kubernetes-\$(lsb_release -cs) main"
 	sudo apt-add-repository "deb [arch=arm64] \
-		http://apt.kubernetes.io/ kubernetes-xenial main"
+		http://apt.kubernetes.io/ kubernetes-yakkety main"
 	sudo apt-get update
 	sudo apt-get install --yes kubelet kubeadm kubectl
+        sudo apt-mark hold kubelet kubeadm kubectl
 CMD
 
-echo === Initialising reboot
+echo === Initializing reboot
 
 exec_remote_su reboot && true
-sleep 20
-
-echo === Init kubernetes
-
-exec_remote_su kubeadm init
+echo Waiting for reboot ...
+sleep 30
+exec_remote echo Done
