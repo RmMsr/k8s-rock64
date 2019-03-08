@@ -23,9 +23,17 @@ else
 fi
 
 echo === Adding SSH public key to host
-export SSH_ASKPASS=${directory}/ssh_pass.sh
-# FIXME is setsid required on Linux?
-ssh-copy-id -i ${ssh_key} ${user}@${host}
+# Try to enable key based auth without user interaction
+if $(command -v setsid > /dev/null); then
+    export SSH_ASKPASS="${base_directory}/util/ssh_pass.sh"
+    export DISPLAY=1
+    setsid ssh-copy-id -i "${ssh_key}" "${user}@${host}"
+elif $(command -v sshpass > /dev/null); then
+    ${base_directory}/util/ssh_pass.sh | sshpass \
+        ssh-copy-id -i "${ssh_key}" "${user}@${host}"
+else
+    ssh-copy-id -i "${ssh_key}" "${user}@${host}"
+fi
 
 echo === Disabling password authentication
 exec_remote_su "sed -i 's/^\#PasswordAuthentication yes$/PasswordAuthentication no/' /etc/ssh/sshd_config"
