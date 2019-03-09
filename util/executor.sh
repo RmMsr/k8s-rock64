@@ -3,14 +3,15 @@
 # Enable for bash
 #shopt -s expand_aliases
 
-cleanup() { rm $askpass; }
+cleanup() { rm "$askpass"; }
 trap cleanup 0 2 # cleanup on exit and kill
 
-mkdir -p $HOME/script
+mkdir -p "$HOME/script"
 askpass=$(mktemp)
-chmod +x $askpass
+chmod +x "$askpass"
 
-cat << ASK > $askpass
+# shellcheck disable=SC2154
+cat << ASK > "$askpass"
 #!/usr/bin/env sh
 echo "$LC_password"
 ASK

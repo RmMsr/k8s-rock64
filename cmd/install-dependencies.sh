@@ -2,15 +2,17 @@
 
 set -e
 
-source "$(dirname $0)/../util/init.sh"
+cd "$(dirname "$0")/.."
+. ./util/init.sh
 
-function usage() {
+usage() {
     echo Usage:
-    echo \ \ $0 host
+    echo \ \ "$0" host
     exit 1
 }
 
-if [ -z $host ]; then
+host="${1}"
+if [ -z "$host" ]; then
     echo Host not specified! 1>&2
     usage
 fi
@@ -22,6 +24,7 @@ exec_remote_su apt-get dist-upgrade --yes
 
 echo === Installing Docker
 
+# shellcheck disable=SC2119
 exec_remote_stdin <<CMD
     sudo apt-get install --yes \
     apt-transport-https \
@@ -31,10 +34,12 @@ exec_remote_stdin <<CMD
     software-properties-common
 CMD
 
+# shellcheck disable=SC2119
 exec_remote_stdin <<CMD
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 CMD
 
+# shellcheck disable=SC2119
 exec_remote_stdin <<CMD
     sudo add-apt-repository \
       "deb [arch=arm64] https://download.docker.com/linux/debian \
@@ -47,6 +52,7 @@ CMD
 
 echo === Install kubeadm, kubectl and kubelet
 
+# shellcheck disable=SC2119
 exec_remote_stdin <<CMD
 	sudo apt-get install -y apt-transport-https curl
 	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -

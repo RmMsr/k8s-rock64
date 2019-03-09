@@ -1,4 +1,5 @@
-base_directory=$(dirname $0)/..
-source "${base_directory}/config/vars-local.sh"
-source "${base_directory}/config/vars-remote.sh"
-source "${base_directory}/util/functions.sh"
+#!/urb/bin/env sh
+
+. ./config/vars-local.sh
+. ./config/vars-remote.sh
+. ./util/functions.sh

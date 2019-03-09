@@ -2,15 +2,17 @@
 
 set -e
 
-source "$(dirname $0)/../util/init.sh"
+cd "$(dirname "$0")/.."
+. ./util/init.sh
 
-function usage() {
+usage() {
     echo Usage:
-    echo \ \ $0 host
+    echo \ \ "$0" host
     exit 1
 }
 
-if [ -z $host ]; then
+host="${1}"
+if [ -z "$host" ]; then
     echo Host not specified! 1>&2
     usage
 fi

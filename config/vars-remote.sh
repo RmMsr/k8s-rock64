@@ -1,4 +1,7 @@
+#!/urb/bin/env sh
+
 # Username for ssh conneciton
-user=rock64
+# shellcheck disable=SC2034
+user="rock64"
 # Password for remote user
-export LC_password=rock64
+export LC_password="rock64"
