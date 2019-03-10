@@ -29,10 +29,11 @@ echo === Adding SSH public key to host
 if command -v setsid > /dev/null; then
     export SSH_ASKPASS=util/ssh-pass.sh
     export DISPLAY=1
-    setsid ssh-copy-id -i "${ssh_key}" "${user}@${host}"
+    setsid ssh-copy-id -o "StrictHostKeyChecking no" \
+        -i "${ssh_key}" "${user}@${host}"
 elif command -v sshpass > /dev/null; then
-    ./util/ssh-pass.sh | sshpass \
-        ssh-copy-id -i "${ssh_key}" "${user}@${host}"
+    ./util/ssh-pass.sh | sshpass ssh-copy-id -o "StrictHostKeyChecking no" \
+        -i "${ssh_key}" "${user}@${host}"
 else
     ssh-copy-id -i "${ssh_key}" "${user}@${host}"
 fi
