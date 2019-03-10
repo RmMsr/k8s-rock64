@@ -37,32 +37,27 @@ CMD
 # shellcheck disable=SC2119
 exec_remote_stdin <<CMD
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-CMD
-
-# shellcheck disable=SC2119
-exec_remote_stdin <<CMD
-    sudo add-apt-repository \
-      "deb [arch=arm64] https://download.docker.com/linux/debian \
-      \$(lsb_release -cs) \
-      stable"
+    sudo sh -c "echo deb [arch=arm64] \
+        https://download.docker.com/linux/debian \$(lsb_release -cs) stable \
+        > /etc/apt/sources.list.d/docker.list"
     sudo apt-get update
     sudo apt-get install --yes docker-ce=${docker_version}
-    apt-mark hold docker-ce
+    sudo apt-mark hold docker-ce
 CMD
 
 echo === Install kubeadm, kubectl and kubelet
 
 # shellcheck disable=SC2119
 exec_remote_stdin <<CMD
-	sudo apt-get install -y apt-transport-https curl
-	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-	sudo apt-add-repository "deb [arch=arm64] \
-		http://apt.kubernetes.io/ kubernetes-\$(lsb_release -cs) main"
-	sudo apt-add-repository "deb [arch=arm64] \
-		http://apt.kubernetes.io/ kubernetes-yakkety main"
-	sudo apt-get update
-	sudo apt-get install --yes kubelet kubeadm kubectl
-        sudo apt-mark hold kubelet kubeadm kubectl
+    sudo apt-get install -y apt-transport-https curl
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+        | sudo apt-key add -
+    sudo sh -c "echo deb [arch=arm64] \
+        https://apt.kubernetes.io/ kubernetes-xenial main \
+        > /etc/apt/sources.list.d/kubernetes.list"
+    sudo apt-get update
+    sudo apt-get install --yes kubelet kubeadm kubectl
+    sudo apt-mark hold kubelet kubeadm kubectl
 CMD
 
 echo === Initializing reboot if needed
