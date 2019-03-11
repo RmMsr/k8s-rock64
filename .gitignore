@@ -1,2 +1,3 @@
-ssh/*
 cluster/*
+*.swp
+.DS_Store

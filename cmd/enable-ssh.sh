@@ -19,7 +19,8 @@ fi
 
 if [ ! -e "${ssh_key}" ]; then
     echo === Generating new SSH keypair
-    ssh-keygen -f "${ssh_key}" -b 4096 -C admin -N ''
+    mkdir -p "$(dirname "$ssh_key")"
+    ssh-keygen -f "$ssh_key" -b 4096 -C admin -N ''
 else
     echo === Skipping SSH keypair generation
 fi

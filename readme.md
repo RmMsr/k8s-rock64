@@ -33,7 +33,7 @@ Now we can install and configure our k8s stack. Here we assume that you save the
 
 1. Run `cmd/enable-ssh.sh $host`
 
-   This will establish key based authentication for SSH. Login with password will no longer work from remote. Your private key is stored in `ssh/client`. Don't lose it.
+   This will establish key based authentication for SSH. Login with password will no longer work from remote. Your private key is stored in `cluster/id_rsa`. Don't lose it.
 
 2. Run `cmd/install-dependencies.sh $host`
 

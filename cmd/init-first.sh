@@ -26,6 +26,6 @@ exec_remote_su kubectl --kubeconfig /etc/kubernetes/admin.conf \
 
 echo === Get cluster admin credentials
 
-mkdir -p cluster
-exec_remote_su cat /etc/kubernetes/admin.conf > cluster/admin.conf
+mkdir -p "$(dirname "$kubeconfig")"
+exec_remote_su cat /etc/kubernetes/admin.conf > "$kubeconfig"
 
