@@ -35,7 +35,11 @@ Now we can install and configure our k8s stack. Here we assume that you save the
 
    This will establish key based authentication for SSH. Login with password will no longer work from remote. Your private key is stored in `cluster/id_rsa`. Don't lose it.
 
-2. Run `cmd/install-dependencies.sh $host`
+2. Run `cmd/prepare-node.sh $host`
+
+   Ensures a unique hostname for each node.
+
+3. Run `cmd/install-dependencies.sh $host`
 
    Installs needed software for a k8s node (e.g. docker, kubeadm and kubectl)
 
