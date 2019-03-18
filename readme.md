@@ -4,12 +4,12 @@ We want to run a stable Kubernetes (k8s) cluster on multiple small Single Board 
 
 ## Current state
 
-The scripts in this repo allow automated bootstraping of a single node k8s. We use [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/) to manage the cluster. The setup roughly follows the [independent k8s setup instructions](https://kubernetes.io/docs/setup/independent/).
+The scripts in this repo allow automated bootstrapping of a single master k8s. We use [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/) to manage the cluster. The setup roughly follows the [independent k8s setup instructions](https://kubernetes.io/docs/setup/independent/).
 
 ## What's next?
 
-* Joining more nodes to the cluster
 * Adding additional storage
+* High availability with more than one master and etcd
 
 # Setup
 
@@ -41,8 +41,12 @@ Now we can install and configure our k8s stack. Here we assume that you save the
 
 3. `cmd/install-dependencies.sh $host`
 
-   Installs needed software for a k8s node (e.g. docker, kubeadm and kubectl)
+   Installs needed software for a k8s node (e.g. docker, kubeadm and kubectl).
 
-3. `cmd/init-first.sh $host`
+4. `cmd/init-master.sh $host`
 
    The first k8s node will be configured and started. You can access the k8s API on port `6443` of that host. A complete kubeconfig with cluster admin credentials is exported to `cluster/admin.conf`.
+
+5. `cmd/join-node.sh $host`
+
+   Add more nodes to the cluster. Only the initial node will be a master. All other nodes will not run the k8s api or host an etcd server.

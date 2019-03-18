@@ -28,4 +28,3 @@ echo === Get cluster admin credentials
 
 mkdir -p "$(dirname "$kubeconfig")"
 exec_remote_su cat /etc/kubernetes/admin.conf > "$kubeconfig"
-
